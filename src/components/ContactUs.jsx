@@ -35,7 +35,7 @@ const ContactPage = () => {
     setSubmitError(false);
 
     try {
-      await axios.post("http://localhost:5000/api/contact", {
+      await axios.post("https://your-backend.onrender.com/api/contact", {
         name: formData.name,
         email: formData.email,
         message: formData.message
