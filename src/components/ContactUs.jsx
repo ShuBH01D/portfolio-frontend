@@ -1,77 +1,78 @@
 import React, { useState } from 'react';
-import  Header from './Header';
+import Header from './Header';
 import Footer from './Footer';
+import axios from "axios";
 
 const ContactPage = () => {
-  // Form state
+
+  // ✅ form data
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     subject: '',
+    phone: '',
     message: ''
   });
-  
-  // Form submission state
+
+  // ✅ states
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [submitError, setSubmitError] = useState(false);
-  
-  // Handle input changes
+
+  // ✅ input change
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prevState => ({
-      ...prevState,
+    setFormData(prev => ({
+      ...prev,
       [name]: value
     }));
   };
-  
-  // Handle form submission
-  const handleSubmit = (e) => {
+
+  // ✅ submit (REAL API CALL)
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    // Simulate form submission with timeout
-    setTimeout(() => {
-      setIsSubmitting(false);
+    setSubmitError(false);
+
+    try {
+      await axios.post("http://localhost:5000/api/contact", {
+        name: formData.name,
+        email: formData.email,
+        message: formData.message
+      });
+
       setSubmitSuccess(true);
-      
-      // Reset form after submission
+
+      // reset form
       setFormData({
         name: '',
         email: '',
         subject: '',
+        phone: '',
         message: ''
       });
-      
-      // Reset success message after 5 seconds
+
       setTimeout(() => {
         setSubmitSuccess(false);
-      }, 5000);
-    }, 1500);
-  };
-  
-  // Contact info
-  const contactInfo = [
-    {
-      icon: "📱",
-      title: "Phone",
-      info: "+91 9011979342",
-    },
-    {
-      icon: "📧",
-      title: "Email",
-      info: "shubhamdighe161909@gmail.com",
-      
-    },
-    {
-      icon: "📍",
-      title: "Address",
-      info: "Pune, Maharashtra, India",
+      }, 4000);
+
+    } catch (error) {
+      console.log(error);
+      setSubmitError(true);
     }
+
+    setIsSubmitting(false);
+  };
+
+  // contact info
+  const contactInfo = [
+    { icon: "📱", title: "Phone", info: "+91 9011979342" },
+    { icon: "📧", title: "Email", info: "shubhamdighe161909@gmail.com" },
+    { icon: "📍", title: "Address", info: "Pune, Maharashtra, India" }
   ];
-  
+
   return (
-    <>
+      <>
     <Header/>
     <div className="bg-gradient-to-r from-black via-gray-900 to-red-900 min-h-screen">
       {/* Hero Section */}
@@ -141,6 +142,20 @@ const ContactPage = () => {
                     id="subject"
                     name="subject"
                     value={formData.subject}
+                    onChange={handleChange}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    required
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="block text-gray-700 font-medium mb-2" htmlFor="subject">
+                    Phone
+                  </label>
+                  <input
+                    type="number"
+                    id="phone"
+                    name="phone"
+                    value={formData.phone}
                     onChange={handleChange}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     required

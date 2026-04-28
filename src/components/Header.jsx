@@ -26,7 +26,7 @@ const PortfolioHeader = () => {
   ];
 
   return (
-    <header className="w-full bg-gradient-to-r from-black via-gray-900 to-red-900 py-4 px-6 sticky top-0 z-50">
+    <header className="w-full bg-gradient-to-b from-black via-gray-900 to-red-900 py-4 px-6 sticky top-0 z-50">
       <div className="container mx-auto flex justify-between items-center">
         {/* Logo */}
         <div className="text-white text-2xl font-bold">SKD</div>
